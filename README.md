@@ -2,90 +2,132 @@
 
 Newsletter éducative personnalisée pour accompagner les parents tout au long de la vie de leurs enfants.
 
+**Repository** : https://github.com/VGrss/Childhook
+
 ## 🎯 Vision
 
 Passer à l'échelle les conseils éducatifs en partageant les bonnes informations au bon moment, adaptées à l'âge de chaque enfant.
 
-## 🚀 Version 0.1 - Infrastructure
+## 🚀 Quick Start
 
-### Statut actuel
-- ✅ Configuration du projet Remix + TypeScript
-- ✅ Setup Tailwind CSS
-- ✅ Configuration Supabase (database, auth, storage)
-- ✅ Fichiers de configuration Vercel
-- 📝 Configuration du domaine childhood.ink (à faire sur Vercel)
-- 📝 Intégration GitHub avec Vercel (à faire sur Vercel)
-
-## 🛠️ Stack Technique
-
-- **Frontend**: Remix + TypeScript
-- **Styling**: Tailwind CSS
-- **Base de données**: Supabase
-- **Hébergement**: Vercel
-- **Email**: Resend
-
-## 📦 Installation
+### Installation (3 minutes)
 
 ```bash
-# Installer les dépendances
+# 1. Installer les dépendances
 npm install
 
-# Configurer les variables d'environnement
+# 2. Configurer les variables d'environnement
 cp .env.example .env
-# Puis éditer .env avec vos clés Supabase
+# Éditer .env avec vos clés Supabase
 
-# Lancer le serveur de développement
+# 3. Lancer le serveur de développement
 npm run dev
 ```
 
-Le site sera accessible sur `http://localhost:5173`
+Le site sera accessible sur **http://localhost:5173**
 
-## 🔧 Configuration
+### Configuration Supabase
 
-### Supabase
+1. Créer un projet sur [https://supabase.com](https://supabase.com)
+2. Dans SQL Editor, exécuter le fichier `supabase/schema.sql`
+3. Récupérer les clés API dans Settings > API
+4. Les mettre dans votre fichier `.env`
 
-1. Créer un projet sur [Supabase](https://supabase.com)
-2. Récupérer l'URL du projet et les clés API
-3. Mettre à jour le fichier `.env` avec ces informations
+Voir **[Rules/tech.md](./Rules/tech.md)** pour la documentation technique complète.
 
-### Vercel
+## 🛠️ Stack Technique
 
-1. Connecter le repository GitHub à Vercel
-2. Configurer les variables d'environnement dans Vercel
-3. Configurer le domaine `childhood.ink`
+- **Frontend** : Remix 2.13.1 + TypeScript 5.6 + React 18
+- **Styling** : Tailwind CSS 3.4
+- **Database** : Supabase (PostgreSQL)
+- **Hosting** : Vercel (région Paris)
+- **Email** : Resend
+- **CI/CD** : GitHub Actions
 
-### GitHub
+## 📊 Version 0.1 - Infrastructure ✅
 
-1. Pousser le code sur GitHub
-2. Configurer l'intégration avec Vercel pour le déploiement automatique
+**Status** : Complète - 37 fichiers créés, 932 packages npm installés
 
-## 📝 Scripts disponibles
+### Réalisations
+- ✅ Configuration Remix + TypeScript + Vite + ESLint
+- ✅ Setup Tailwind CSS avec thème personnalisé
+- ✅ Configuration Supabase (4 tables, RLS, triggers)
+- ✅ Configuration Vercel + GitHub Actions (CI/CD)
+- ✅ Page d'accueil temporaire avec design moderne
+- ✅ Documentation technique complète
 
-- `npm run dev` - Lancer le serveur de développement
-- `npm run build` - Build de production
-- `npm run start` - Lancer le serveur de production
-- `npm run typecheck` - Vérifier les types TypeScript
-- `npm run lint` - Linter le code
+### Prochaines étapes
+- **v0.2** : Landing page finale
+- **v0.3** : Formulaire d'inscription
+- **v0.4** : Configuration emailing
+
+Voir **[Rules/roadmap.md](./Rules/roadmap.md)** pour toutes les versions planifiées.
+
+## 📝 Commandes
+
+```bash
+npm run dev        # Développement (http://localhost:5173)
+npm run build      # Build de production
+npm run start      # Serveur de production
+npm run typecheck  # Vérification des types
+npm run lint       # Linter le code
+```
 
 ## 📚 Documentation
 
-- [Product Specs](./Rules/product_specs.md)
-- [Roadmap](./Rules/roadmap.md)
-- [Release Procedure](./Rules/release_procedure.md)
+### Projet
+- **[Rules/product_specs.md](./Rules/product_specs.md)** - Spécifications complètes du produit
+- **[Rules/roadmap.md](./Rules/roadmap.md)** - Roadmap des versions (v0.1 à v4.5)
+- **[Rules/version_history.md](./Rules/version_history.md)** - Historique des versions
+- **[Rules/tech.md](./Rules/tech.md)** - Documentation technique détaillée
+- **[Rules/release_procedure.md](./Rules/release_procedure.md)** - Procédure de release
+
+### Technique
+- **[supabase/README.md](./supabase/README.md)** - Documentation Supabase
+- **[manifest.json](./manifest.json)** - Métadonnées du projet
+
+## 🗄️ Base de Données
+
+Le schéma Supabase inclut :
+- **users** - Profils des parents
+- **children** - Informations des enfants
+- **email_templates** - Templates d'emails
+- **sent_emails** - Historique des envois
+
+Row Level Security (RLS) activé sur toutes les tables.
+
+## 🚀 Déploiement
+
+### Vercel
+1. Importer le repository sur [https://vercel.com](https://vercel.com)
+2. Framework Preset : Remix
+3. Ajouter les variables d'environnement
+4. Déployer
+
+### GitHub
+```bash
+git push origin main  # Déploiement automatique via GitHub Actions
+```
+
+Voir **[Rules/release_procedure.md](./Rules/release_procedure.md)** pour la procédure complète.
 
 ## 🎨 Design
 
-Le design utilise une approche moderne et épurée avec :
-- Palette de couleurs douce (bleu/violet)
+Page d'accueil avec :
+- Gradient moderne (bleu → violet)
 - Typographie Inter
-- Composants Tailwind CSS
-- Responsive design
+- 3 cards (Moments clés, Inspiration, Ambition)
+- Design responsive
 
-## 🔐 Sécurité
+## 🔐 Variables d'Environnement
 
-- Authentification Google OAuth via Supabase
-- Protection des données utilisateurs
-- Variables d'environnement sécurisées
+```env
+SUPABASE_URL=...
+SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+RESEND_API_KEY=...
+NODE_ENV=development
+```
 
 ## 📄 Licence
 

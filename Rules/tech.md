@@ -236,16 +236,31 @@ npm run dev
 ```
 
 ### Configuration Supabase
-1. Aller sur https://supabase.com
-2. Créer un projet "childhood-ink"
-3. Dans SQL Editor, exécuter le fichier `supabase/schema.sql`
-4. Récupérer les clés API dans Settings > API
-5. Mettre à jour le fichier `.env` :
+1. Aller sur https://supabase.com et créer un compte
+2. Créer un nouveau projet :
+   - Name : `childhood-ink`
+   - Database Password : choisir un mot de passe fort
+   - Region : Europe (Frankfurt) ou Paris
+   - Pricing Plan : Free
+3. Attendre 1-2 minutes que le projet soit créé
+4. Dans SQL Editor, exécuter le fichier `supabase/schema.sql`
+5. Récupérer les clés API dans Settings > API
+6. Mettre à jour le fichier `.env` :
    ```env
    SUPABASE_URL=https://xxxxxxxxxx.supabase.co
    SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
    SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
    ```
+
+### Configuration Resend (pour v0.4+)
+1. Aller sur https://resend.com et créer un compte
+2. Dans le dashboard, aller dans "API Keys"
+3. Créer une nouvelle clé API
+4. Copier la clé dans `.env` :
+   ```env
+   RESEND_API_KEY=re_xxxxxxxxxxxxx
+   ```
+5. Pour la production, configurer le domaine dans Resend et les DNS
 
 ### Déploiement Vercel
 1. Aller sur https://vercel.com
