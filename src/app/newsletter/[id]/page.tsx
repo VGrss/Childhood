@@ -9,12 +9,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
-import { EmailTemplate } from '@/lib/email-system/types';
 
-interface EmailSection {
-  type: string;
-  title?: string;
-  body: string;
+interface TemplateData {
+  id: string;
+  name: string;
+  subject: string;
+  content: any;
+  preview_text?: string;
+  is_active: boolean;
+  version: number;
+  rules?: any[];
 }
 
 export default function EditTemplatePage() {
@@ -22,7 +26,7 @@ export default function EditTemplatePage() {
   const router = useRouter();
   const templateId = params.id as string;
 
-  const [template, setTemplate] = useState<EmailTemplate | null>(null);
+  const [template, setTemplate] = useState<TemplateData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -32,7 +36,7 @@ export default function EditTemplatePage() {
   const [name, setName] = useState('');
   const [subject, setSubject] = useState('');
   const [previewText, setPreviewText] = useState('');
-  const [sections, setSections] = useState<EmailSection[]>([]);
+  const [body, setBody] = useState('');
 
   useEffect(() => {
     fetchTemplate();
@@ -50,8 +54,24 @@ export default function EditTemplatePage() {
       setSubject(data.subject);
       setPreviewText(data.preview_text || '');
       
-      if (data.content && data.content.sections) {
-        setSections(data.content.sections);
+      // Extraire le body (compatible avec ancien et nouveau format)
+      if (data.content) {
+        if (typeof data.content === 'string') {
+          setBody(data.content);
+        } else if (data.content.body) {
+          setBody(data.content.body);
+        } else if (data.content.sections) {
+          // Convertir l'ancien format en nouveau
+          const combinedBody = data.content.sections
+            .map((s: any) => {
+              let text = '';
+              if (s.title) text += `## ${s.title}\n\n`;
+              text += s.body;
+              return text;
+            })
+            .join('\n\n---\n\n');
+          setBody(combinedBody);
+        }
       }
     } catch (err) {
       setError('Erreur lors du chargement du template');
@@ -74,13 +94,15 @@ export default function EditTemplatePage() {
           name,
           subject,
           preview_text: previewText,
-          content: { sections },
+          content: { body }, // Nouveau format simplifié
         }),
       });
 
       if (!response.ok) throw new Error('Failed to save');
 
+      const result = await response.json();
       setSuccessMessage('✅ Template enregistré avec succès !');
+      setTemplate(result.template);
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       setError('❌ Erreur lors de l\'enregistrement');
@@ -90,18 +112,39 @@ export default function EditTemplatePage() {
     }
   };
 
-  const addSection = () => {
-    setSections([...sections, { type: 'intro', body: '' }]);
-  };
-
-  const updateSection = (index: number, field: keyof EmailSection, value: string) => {
-    const newSections = [...sections];
-    newSections[index] = { ...newSections[index], [field]: value };
-    setSections(newSections);
-  };
-
-  const removeSection = (index: number) => {
-    setSections(sections.filter((_, i) => i !== index));
+  const formatTriggerDisplay = (rules: any[]): string => {
+    if (!rules || rules.length === 0) return 'Aucun trigger configuré';
+    
+    const rule = rules[0];
+    
+    if (rule.type === 'relative') {
+      const days = Math.abs(rule.offset_days || 0);
+      const before = (rule.offset_days || 0) < 0;
+      return `${days} jour${days > 1 ? 's' : ''} ${before ? 'avant' : 'après'} l'anniversaire`;
+    }
+    
+    if (rule.type === 'absolute' || rule.type === 'hybrid') {
+      const months = ['', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 
+                      'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+      const monthName = months[rule.anchor_month];
+      const day = rule.anchor_day === 'last' ? 'dernier jour' : rule.anchor_day;
+      
+      let trigger = `${day} ${monthName}`;
+      
+      if (rule.age_condition_op && rule.age_condition_op !== 'none') {
+        if (rule.age_condition_op === 'between') {
+          trigger += ` • ${rule.age_condition_min}-${rule.age_condition_max} ans`;
+        } else if (rule.age_condition_op === '==') {
+          trigger += ` • ${rule.age_condition_value} ans`;
+        } else if (rule.age_condition_op === '>=') {
+          trigger += ` • ≥${rule.age_condition_value} ans`;
+        }
+      }
+      
+      return trigger;
+    }
+    
+    return 'Trigger non défini';
   };
 
   if (loading) {
@@ -138,21 +181,40 @@ export default function EditTemplatePage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">
-              ✏️ Édition du Template
-            </h1>
-            <p className="text-gray-600">ID: {templateId}</p>
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-1">
+                ✏️ {name || 'Édition du Template'}
+              </h1>
+              <p className="text-gray-600">ID: {templateId}</p>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={() => router.push('/newsletter')}>
+                ← Retour
+              </Button>
+              <Button onClick={handleSave} disabled={saving}>
+                {saving ? 'Enregistrement...' : '💾 Enregistrer'}
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => router.push('/newsletter')}>
-              ← Retour
-            </Button>
-            <Button onClick={handleSave} disabled={saving}>
-              {saving ? 'Enregistrement...' : '💾 Enregistrer'}
-            </Button>
-          </div>
+
+          {/* Trigger Info */}
+          {template?.rules && template.rules.length > 0 && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🕐</span>
+                <div>
+                  <p className="text-sm font-semibold text-blue-900">
+                    Déclenchement automatique
+                  </p>
+                  <p className="text-blue-700">
+                    {formatTriggerDisplay(template.rules)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Messages */}
@@ -179,7 +241,7 @@ export default function EditTemplatePage() {
             <Card>
               <CardHeader>
                 <CardTitle>Informations générales</CardTitle>
-                <CardDescription>Nom, sujet et prévisualisation</CardDescription>
+                <CardDescription>Nom et métadonnées</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -201,7 +263,7 @@ export default function EditTemplatePage() {
                     placeholder="🎉 L&apos;anniversaire de {child_name} approche !"
                   />
                   <p className="text-xs text-gray-500">
-                    Variables disponibles : {'{child_name}'}, {'{parent_name}'}, {'{age}'}
+                    Variables : {'{child_name}'}, {'{parent_name}'}, {'{age}'}
                   </p>
                 </div>
 
@@ -211,91 +273,47 @@ export default function EditTemplatePage() {
                     id="preview"
                     value={previewText}
                     onChange={(e) => setPreviewText(e.target.value)}
-                    placeholder="L'anniversaire de votre enfant approche..."
+                    placeholder="L&apos;anniversaire de votre enfant approche..."
                   />
                 </div>
               </CardContent>
             </Card>
 
-            {/* Sections */}
+            {/* Contenu de l'email */}
             <Card>
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>Sections du contenu</CardTitle>
-                    <CardDescription>
-                      Organisez le contenu en sections thématiques
-                    </CardDescription>
-                  </div>
-                  <Button onClick={addSection} size="sm">
-                    + Ajouter une section
-                  </Button>
-                </div>
+                <CardTitle>Contenu de l&apos;email</CardTitle>
+                <CardDescription>
+                  Rédigez le contenu complet de l&apos;email
+                </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                {sections.map((section, index) => (
-                  <div key={index} className="border rounded-lg p-4 space-y-4 bg-white">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-semibold text-gray-900">
-                        Section {index + 1}
-                      </h4>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => removeSection(index)}
-                      >
-                        🗑️ Supprimer
-                      </Button>
-                    </div>
+              <CardContent>
+                <div className="space-y-2">
+                  <Label htmlFor="body">Contenu</Label>
+                  <Textarea
+                    id="body"
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                    placeholder="Bonjour {parent_name},
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Type</Label>
-                        <select
-                          value={section.type}
-                          onChange={(e) => updateSection(index, 'type', e.target.value)}
-                          className="w-full px-3 py-2 border rounded-md"
-                        >
-                          <option value="intro">Introduction</option>
-                          <option value="activities">Activités</option>
-                          <option value="admin">Administratif</option>
-                          <option value="health">Santé</option>
-                          <option value="financial">Financier</option>
-                          <option value="conclusion">Conclusion</option>
-                        </select>
-                      </div>
+Dans 7 jours, {child_name} fêtera son anniversaire ! C'est l'occasion parfaite pour célébrer cette étape importante.
 
-                      <div className="space-y-2">
-                        <Label>Titre (optionnel)</Label>
-                        <Input
-                          value={section.title || ''}
-                          onChange={(e) => updateSection(index, 'title', e.target.value)}
-                          placeholder="Titre de la section"
-                        />
-                      </div>
-                    </div>
+## Idées d'activités
 
-                    <div className="space-y-2">
-                      <Label>Contenu</Label>
-                      <Textarea
-                        value={section.body}
-                        onChange={(e) => updateSection(index, 'body', e.target.value)}
-                        placeholder="Contenu de la section..."
-                        rows={6}
-                        className="font-mono text-sm"
-                      />
-                    </div>
-                  </div>
-                ))}
+- Organiser une petite fête avec les amis
+- Préparer un gâteau ensemble
+- Créer un album photo de l'année écoulée
 
-                {sections.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
-                    <p className="mb-4">Aucune section ajoutée</p>
-                    <Button onClick={addSection}>
-                      + Ajouter la première section
-                    </Button>
-                  </div>
-                )}
+Profitez de ce moment spécial !
+
+L'équipe Childhood.ink"
+                    rows={20}
+                    className="font-mono text-sm"
+                  />
+                  <p className="text-xs text-gray-500">
+                    💡 Utilisez ## pour les titres, - pour les listes. Variables : {'{child_name}'}, {'{parent_name}'}, {'{age}'}
+                  </p>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -306,7 +324,7 @@ export default function EditTemplatePage() {
               <CardHeader>
                 <CardTitle>Prévisualisation de l&apos;email</CardTitle>
                 <CardDescription>
-                  Aperçu avec variables de test
+                  Aperçu avec variables de test (Alice, Marie, 3 ans)
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -315,38 +333,60 @@ export default function EditTemplatePage() {
                   <div className="mb-6 pb-6 border-b">
                     <p className="text-xs text-gray-500 mb-1">Sujet :</p>
                     <h2 className="text-2xl font-bold text-gray-900">
-                      {subject.replace('{child_name}', 'Alice').replace('{age}', '3')}
+                      {subject
+                        .replace(/{child_name}/g, 'Alice')
+                        .replace(/{parent_name}/g, 'Marie')
+                        .replace(/{age}/g, '3')}
                     </h2>
                     {previewText && (
                       <p className="text-sm text-gray-600 mt-2">{previewText}</p>
                     )}
                   </div>
 
-                  {/* Sections */}
-                  <div className="space-y-6">
-                    {sections.map((section, index) => (
-                      <div key={index}>
-                        {section.title && (
-                          <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                            {section.title}
-                          </h3>
-                        )}
-                        <div className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                          {section.body
-                            .replace('{child_name}', 'Alice')
-                            .replace('{parent_name}', 'Marie')
-                            .replace('{age}', '3')}
-                        </div>
-                        {index < sections.length - 1 && (
-                          <Separator className="my-6" />
-                        )}
-                      </div>
-                    ))}
+                  {/* Body Content */}
+                  <div className="prose prose-slate max-w-none">
+                    {body
+                      .replace(/{child_name}/g, 'Alice')
+                      .replace(/{parent_name}/g, 'Marie')
+                      .replace(/{age}/g, '3')
+                      .split('\n')
+                      .map((line, i) => {
+                        // Titres (##)
+                        if (line.startsWith('## ')) {
+                          return (
+                            <h3 key={i} className="text-xl font-semibold text-gray-900 mt-6 mb-3">
+                              {line.replace('## ', '')}
+                            </h3>
+                          );
+                        }
+                        // Listes (-)
+                        if (line.trim().startsWith('- ')) {
+                          return (
+                            <li key={i} className="text-gray-700 ml-4">
+                              {line.replace(/^- /, '')}
+                            </li>
+                          );
+                        }
+                        // Lignes vides
+                        if (line.trim() === '') {
+                          return <br key={i} />;
+                        }
+                        // Séparateur (---)
+                        if (line.trim() === '---') {
+                          return <Separator key={i} className="my-6" />;
+                        }
+                        // Texte normal
+                        return (
+                          <p key={i} className="text-gray-700 leading-relaxed mb-2">
+                            {line}
+                          </p>
+                        );
+                      })}
                   </div>
 
-                  {sections.length === 0 && (
+                  {!body && (
                     <div className="text-center py-12 text-gray-400">
-                      Aucune section à prévisualiser
+                      Aucun contenu à prévisualiser
                     </div>
                   )}
                 </div>
@@ -354,8 +394,20 @@ export default function EditTemplatePage() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* Help Section */}
+        <Card className="mt-6 bg-gray-50">
+          <CardHeader>
+            <CardTitle className="text-lg">💡 Aide à la rédaction</CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm space-y-2">
+            <p><strong>Variables :</strong> {'{child_name}'}, {'{parent_name}'}, {'{age}'}</p>
+            <p><strong>Titres :</strong> Utilisez ## pour créer un titre</p>
+            <p><strong>Listes :</strong> Commencez les lignes par - pour créer une liste</p>
+            <p><strong>Séparateur :</strong> Utilisez --- pour créer une ligne de séparation</p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
 }
-

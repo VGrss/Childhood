@@ -1,27 +1,90 @@
-import { supabaseAdmin } from '@/lib/supabase';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { EmailTemplate } from '@/lib/email-system/types';
 
-export const revalidate = 0; // Désactiver le cache pour toujours voir les dernières données
-
-async function getTemplates() {
-  const { data: templates, error } = await supabaseAdmin
-    .from('email_templates')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching templates:', error);
-    return [];
-  }
-
-  return templates as EmailTemplate[];
+interface TemplateWithRules {
+  id: string;
+  name: string;
+  subject: string;
+  content: any;
+  preview_text?: string;
+  is_active: boolean;
+  version: number;
+  rules: any[];
+  temporal_order: number;
 }
 
-export default async function NewsletterPage() {
-  const templates = await getTemplates();
+export default function NewsletterPage() {
+  const [templates, setTemplates] = useState<TemplateWithRules[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTemplates();
+  }, []);
+
+  const fetchTemplates = async () => {
+    try {
+      const response = await fetch('/api/templates');
+      const data = await response.json();
+      setTemplates(data.templates || []);
+    } catch (error) {
+      console.error('Error fetching templates:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatTrigger = (rules: any[]): string => {
+    if (!rules || rules.length === 0) return 'Aucun trigger';
+    
+    const rule = rules[0];
+    
+    // Relative (birthday)
+    if (rule.type === 'relative') {
+      const days = Math.abs(rule.offset_days || 0);
+      const before = (rule.offset_days || 0) < 0;
+      return `${days} jour${days > 1 ? 's' : ''} ${before ? 'avant' : 'après'} l'anniversaire`;
+    }
+    
+    // Absolute (calendar)
+    if (rule.type === 'absolute' || rule.type === 'hybrid') {
+      const months = ['', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 
+                      'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+      const monthName = months[rule.anchor_month];
+      const day = rule.anchor_day === 'last' ? 'dernier jour' : rule.anchor_day;
+      
+      let trigger = `${day} ${monthName}`;
+      
+      // Ajouter condition d'âge
+      if (rule.age_condition_op && rule.age_condition_op !== 'none') {
+        if (rule.age_condition_op === 'between') {
+          trigger += ` (${rule.age_condition_min}-${rule.age_condition_max} ans)`;
+        } else if (rule.age_condition_op === '==') {
+          trigger += ` (${rule.age_condition_value} ans)`;
+        } else if (rule.age_condition_op === '>=') {
+          trigger += ` (≥${rule.age_condition_value} ans)`;
+        }
+      }
+      
+      return trigger;
+    }
+    
+    return 'Trigger non défini';
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-4xl mb-4">⏳</div>
+          <p className="text-gray-600">Chargement des templates...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
@@ -31,10 +94,10 @@ export default async function NewsletterPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                📬 Gestion des Templates
+                📬 Templates d&apos;Emails
               </h1>
               <p className="text-lg text-gray-600">
-                Créez et éditez les templates d&apos;emails de la newsletter
+                Organisés par ordre chronologique d&apos;envoi
               </p>
             </div>
             <Link href="/">
@@ -63,15 +126,15 @@ export default async function NewsletterPage() {
           </Card>
           <Card>
             <CardHeader className="pb-3">
-              <CardDescription>Templates Inactifs</CardDescription>
+              <CardDescription>Avec Triggers</CardDescription>
               <CardTitle className="text-3xl">
-                {templates.filter(t => !t.is_active).length}
+                {templates.filter(t => t.rules && t.rules.length > 0).length}
               </CardTitle>
             </CardHeader>
           </Card>
         </div>
 
-        {/* Templates Grid */}
+        {/* Templates List (chronologique) */}
         {templates.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
@@ -85,19 +148,32 @@ export default async function NewsletterPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {templates.map((template) => (
-              <Card key={template.id} className="hover:shadow-lg transition-shadow">
+          <div className="space-y-4">
+            {templates.map((template, index) => (
+              <Card key={template.id} className="hover:shadow-lg transition-all">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-xl mb-2">
-                        {template.name}
-                      </CardTitle>
-                      <CardDescription className="text-sm">
-                        ID: {template.id}
-                      </CardDescription>
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-2xl font-bold text-gray-400">
+                          #{index + 1}
+                        </span>
+                        <div>
+                          <CardTitle className="text-xl">
+                            {template.name}
+                          </CardTitle>
+                          <CardDescription className="text-xs mt-1">
+                            ID: {template.id}
+                          </CardDescription>
+                        </div>
+                      </div>
+                      
+                      {/* Trigger Info */}
+                      <div className="mt-3 inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        🕐 {formatTrigger(template.rules)}
+                      </div>
                     </div>
+                    
                     <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
                       template.is_active 
                         ? 'bg-green-100 text-green-700' 
@@ -130,15 +206,11 @@ export default async function NewsletterPage() {
 
                   <div className="flex items-center justify-between pt-4 border-t">
                     <div className="text-xs text-gray-500">
-                      Version {template.version} • {
-                        typeof template.content === 'object' && 'sections' in template.content
-                          ? template.content.sections.length
-                          : 0
-                      } sections
+                      Version {template.version} • {template.rules.length} règle{template.rules.length > 1 ? 's' : ''}
                     </div>
                     <Link href={`/newsletter/${template.id}`}>
                       <Button size="sm">
-                        Éditer →
+                        ✏️ Éditer
                       </Button>
                     </Link>
                   </div>
@@ -150,10 +222,9 @@ export default async function NewsletterPage() {
 
         {/* Footer Info */}
         <div className="mt-12 text-center text-sm text-gray-500">
-          <p>💡 Astuce : Les templates sont utilisés par les règles d&apos;envoi automatique</p>
+          <p>💡 Triés par ordre chronologique d&apos;envoi dans l&apos;année</p>
         </div>
       </div>
     </div>
   );
 }
-
