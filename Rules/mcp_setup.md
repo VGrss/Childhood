@@ -13,23 +13,23 @@ Guide d'installation des serveurs MCP (Model Context Protocol) pour Vercel, Supa
 
 ### 1. Vercel MCP
 
-Vercel propose un serveur MCP officiel accessible via HTTPS.
+Vercel propose un serveur MCP officiel accessible via HTTPS avec authentification OAuth.
 
 **Aucune installation nécessaire** - Le serveur est hébergé par Vercel.
 
 **Configuration** :
 - Endpoint officiel : `https://mcp.vercel.com`
 - Endpoint spécifique au projet : `https://mcp.vercel.com/<teamSlug>/<projectSlug>`
+- **Authentification** : OAuth (automatique)
 
-**Variables d'environnement requises** :
-```bash
-VERCEL_TOKEN=your_vercel_token_here
-```
+**Aucun token requis** - Cursor gérera automatiquement le flux OAuth lors de la première utilisation.
 
-Pour obtenir votre token :
-1. Aller sur https://vercel.com/account/tokens
-2. Créer un nouveau token
-3. Copier le token
+**Première utilisation** :
+1. Utiliser `@vercel` dans Cursor
+2. Cursor vous demandera d'autoriser l'accès
+3. Une fenêtre de navigateur s'ouvrira pour vous connecter à Vercel
+4. Autoriser l'accès à vos projets Vercel
+5. Retourner dans Cursor - c'est prêt !
 
 ### 2. Supabase MCP
 
@@ -105,10 +105,7 @@ Le fichier de configuration MCP se trouve dans `~/.cursor/mcp.json`.
 {
   "mcpServers": {
     "vercel": {
-      "url": "https://mcp.vercel.com",
-      "env": {
-        "VERCEL_TOKEN": "your_vercel_token"
-      }
+      "url": "https://mcp.vercel.com"
     },
     "supabase": {
       "command": "/Users/victorgross/.local/bin/supabase-mcp-server",
@@ -161,8 +158,10 @@ Pour vérifier que les serveurs MCP sont correctement configurés :
 ### Exemples avec Vercel
 ```
 @vercel list my projects
-@vercel deploy to production
-@vercel check deployment status
+@vercel deploy the Childhood.ink project to production
+@vercel check deployment status for childhood-ink
+@vercel show recent deployments
+@vercel rollback to previous deployment
 ```
 
 ### Exemples avec Supabase
@@ -182,9 +181,11 @@ Pour vérifier que les serveurs MCP sont correctement configurés :
 ## 🐛 Dépannage
 
 ### Vercel MCP ne fonctionne pas
-- Vérifier que le token Vercel est valide
-- Vérifier que vous avez accès aux projets
-- Essayer l'URL spécifique au projet
+- Vérifier que vous êtes connecté à Vercel (flux OAuth)
+- Réautoriser l'accès si nécessaire
+- Vérifier que vous avez accès aux projets dans votre compte Vercel
+- Essayer de redémarrer Cursor et réessayer l'OAuth
+- Essayer l'URL spécifique au projet : `https://mcp.vercel.com/VGrss/childhood-ink`
 
 ### Supabase MCP ne démarre pas
 - Vérifier que pipx est installé : `pipx --version`
