@@ -1,0 +1,66 @@
+{
+  "name": "Childhood.ink",
+  "version": "0.1.0",
+  "description": "Newsletter éducative personnalisée pour accompagner les parents tout au long de la vie de leurs enfants",
+  "author": "Victor Gross",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VGrss/Childhook.git"
+  },
+  "homepage": "https://childhood.ink",
+  "license": "Proprietary",
+  "keywords": [
+    "newsletter",
+    "education",
+    "parenting",
+    "children",
+    "family"
+  ],
+  "technologies": {
+    "frontend": {
+      "framework": "Remix",
+      "version": "2.13.1",
+      "language": "TypeScript",
+      "ui": "Tailwind CSS"
+    },
+    "backend": {
+      "runtime": "Node.js",
+      "database": "Supabase (PostgreSQL)",
+      "email": "Resend"
+    },
+    "hosting": {
+      "platform": "Vercel",
+      "region": "Paris (cdg1)"
+    }
+  },
+  "releases": {
+    "0.1.0": {
+      "date": "2025-10-15",
+      "status": "Released",
+      "type": "Infrastructure",
+      "description": "Configuration complète de l'infrastructure de base : Remix + TypeScript, Tailwind CSS, Supabase, Vercel, GitHub Actions"
+    }
+  },
+  "features": {
+    "completed": [
+      "Configuration Remix + TypeScript",
+      "Setup Tailwind CSS",
+      "Configuration Supabase",
+      "Setup Vercel",
+      "GitHub Actions CI/CD",
+      "Page d'accueil temporaire",
+      "Documentation complète"
+    ],
+    "next": [
+      "Landing page finale (v0.2)",
+      "Formulaire d'inscription (v0.3)",
+      "Configuration emailing (v0.4)"
+    ]
+  },
+  "stats": {
+    "files": 35,
+    "dependencies": 932,
+    "linesOfCode": "~1500"
+  }
+}
+
