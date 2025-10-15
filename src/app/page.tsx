@@ -1,26 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Childhood.ink - La Newsletter qui Grandit avec Votre Enfant" },
-    {
-      name: "description",
-      content:
-        "Recevez des conseils personnalisés adaptés à l'âge de votre enfant. Activités, santé, administratif, financier : les bonnes informations au bon moment.",
-    },
-    {
-      property: "og:title",
-      content: "Childhood.ink - Newsletter Éducative pour Parents",
-    },
-    {
-      property: "og:description",
-      content:
-        "Des conseils personnalisés livrés aux moments clés de la vie de votre enfant",
-    },
-  ];
-};
-
-export default function Index() {
+export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Hero Section */}
@@ -58,10 +36,10 @@ export default function Index() {
             Notre Vision
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed">
-            <em>"On sait suffisamment de choses pour conseiller chacun de façon systématique tout au long de sa vie."</em>
+            <em>&ldquo;On sait suffisamment de choses pour conseiller chacun de façon systématique tout au long de sa vie.&rdquo;</em>
           </p>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed">
-            L'objectif : <strong>passer à l'échelle les conseils éducatifs</strong> en partageant 
+            L&apos;objectif : <strong>passer à l&apos;échelle les conseils éducatifs</strong> en partageant 
             les bonnes informations au bon moment.
           </p>
         </div>
@@ -84,7 +62,7 @@ export default function Index() {
                 Activités
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                Des idées d'activités adaptées à chaque âge pour stimuler la créativité et l'éveil.
+                Des idées d&apos;activités adaptées à chaque âge pour stimuler la créativité et l&apos;éveil.
               </p>
             </div>
 
@@ -123,7 +101,7 @@ export default function Index() {
                 Financier
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                Gérer le budget familial : épargne, aides, préparation de l'avenir.
+                Gérer le budget familial : épargne, aides, préparation de l&apos;avenir.
               </p>
             </div>
           </div>
@@ -162,7 +140,7 @@ export default function Index() {
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
                 3
               </div>
-              <h3 className="text-xl font-semibold mb-3">Passez à l'action</h3>
+              <h3 className="text-xl font-semibold mb-3">Passez à l&apos;action</h3>
               <p className="text-blue-100">
                 Suivez les recommandations personnalisées et accompagnez votre enfant
               </p>
@@ -195,7 +173,7 @@ export default function Index() {
                 Inspiration
               </h3>
               <p className="text-gray-600">
-                Des idées concrètes pour stimuler la créativité et l'épanouissement
+                Des idées concrètes pour stimuler la créativité et l&apos;épanouissement
               </p>
             </div>
 
@@ -219,7 +197,7 @@ export default function Index() {
             Prêt à accompagner votre enfant ?
           </h2>
           <p className="text-xl text-gray-300 mb-8">
-            L'inscription sera bientôt disponible.
+            L&apos;inscription sera bientôt disponible.
           </p>
           <p className="text-gray-400">
             Version 0.2 - Landing Page | En cours de développement

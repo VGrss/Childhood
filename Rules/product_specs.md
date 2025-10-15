@@ -61,21 +61,20 @@ Structure simple et efficace :
 - **Sections & contenu** : Format rich text global incluant titres et liens externes
 - **Signature permanente** : Lien vers la Life Newsletter
 
-### 4. Pages Publiques des Emails
+### 4. Pages Publiques du contenu des Emails
 - Chaque email est disponible publiquement sur une page dédiée
 - **Système de commentaires** : Intégration de **Disqus** pour permettre aux lecteurs de commenter et suggérer des modifications
 
 ## 🔧 Stack Technique
 
 ### Frontend
-- **Framework** : Remix
+- **Framework** : Next.js
 - **Langage** : TypeScript
 - **Styling** : Tailwind CSS
 - **Composants UI** : Shadcn UI (https://ui.shadcn.com/)
 
 ### Backend
 - **Langage** : TypeScript (Node.js) ou Python
-- **Features IA** : Vercel AI SDK ([https://ai-sdk.dev/docs/introduction)
 - **CRON Jobs** : Configuration sur le backend
 
 ### Base de Données & Services
@@ -94,7 +93,7 @@ Structure simple et efficace :
 
 - **Monorepo** : Frontend et Backend hébergés ensemble sur Vercel
 - **Intégration GitHub** : Déploiement automatisé
-- **Séparation claire** : Frontend Remix + Backend Node.js/Python
+- **Séparation claire** : Frontend Next.js + Backend Node.js (API Routes)
 
 ## 📱 Interface Utilisateur
 
@@ -117,8 +116,11 @@ Structure simple et efficace :
 - S'amuser et apprendre tout au long du projet !
 
 ### À Éviter
-- NextJS (préférer Remix)
 - Supabase/Vercel Functions (apprentissage plus difficile)
+
+### Changement de Stack (v0.2)
+- ✅ Migration de Remix vers Next.js pour simplifier le déploiement Vercel
+- Next.js offre une meilleure intégration native avec Vercel (framework officiel)
 
 ## 📊 Intégrations Tierces
 

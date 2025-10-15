@@ -21,29 +21,22 @@
 
 ## Version 0.2 - Landing Page ✅ (15 octobre 2025)
 
-**Objectif** : Design final de la page d'accueil avec présentation complète du concept Life Newsletter.
+**Objectif** : Design final de la page d'accueil + migration vers Next.js pour simplifier le déploiement Vercel.
 
 **Réalisations** :
+- ✅ Migration complète de Remix vers Next.js 14.2 (déploiement Vercel en 1 clic)
 - Landing page professionnelle avec 6 sections complètes
 - Hero section avec titre accrocheur, sous-titre et CTA  
-- Section Vision avec citation du projet
 - Présentation des 4 types de contenus (Activités, Administratif, Santé, Financier)
-- Section "Comment ça marche" en 3 étapes illustrées
-- Section Engagements (Moments clés, Inspiration, Ambition)
+- Section "Comment ça marche" en 3 étapes + Section Engagements
 - Footer CTA avec dark mode
-- Design 100% responsive (mobile, tablet, desktop avec Tailwind breakpoints)
-- Meta tags SEO et Open Graph optimisés
+- Design 100% responsive + Meta tags SEO et Open Graph optimisés
+- Configuration Vercel simplifiée (auto-détection)
 
-**Stack** : Remix 2.13.1, TypeScript 5.6.2, Tailwind CSS 3.4.4
+**Stack** : Next.js 14.2.33, TypeScript 5.6.2, Tailwind CSS 3.4.4
 
-**Statut** : ✅ Complète - Landing page déployable
+**Statut** : ✅ Complète - Prêt pour déploiement Vercel (1 clic)
 
----
 
-## Version 0.3 - Formulaire d'Inscription 📅 (À venir)
-
-**Objectif** : Formulaire complet (prénom, email, date naissance, genre) avec validation et connexion Supabase.
-
-**Statut** : 🔜 Planifié
 
 

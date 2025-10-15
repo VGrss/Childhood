@@ -3,16 +3,15 @@
 ## 🛠️ Stack Technique
 
 ### Frontend
-- **Framework** : Remix v2.13.1
+- **Framework** : Next.js v14.2.33
 - **Langage** : TypeScript v5.6.2
 - **UI Framework** : React 18.3.1
 - **Styling** : Tailwind CSS v3.4.4
 - **Composants UI** : Shadcn UI (à intégrer en v1.0)
-- **Build Tool** : Vite v5.4.8
 
 ### Backend
 - **Runtime** : Node.js 20+
-- **API Routes** : Remix Server-Side
+- **API Routes** : Next.js API Routes
 - **Langage** : TypeScript
 - **IA Features** : Vercel AI SDK (à intégrer en v3.0)
 
@@ -45,11 +44,8 @@
 ### Production
 ```json
 {
-  "@remix-run/node": "^2.13.1",
-  "@remix-run/react": "^2.13.1",
-  "@remix-run/serve": "^2.13.1",
   "@supabase/supabase-js": "^2.45.4",
-  "isbot": "^4.1.0",
+  "next": "^14.2.33",
   "react": "^18.3.1",
   "react-dom": "^18.3.1"
 }
@@ -58,13 +54,15 @@
 ### Développement
 ```json
 {
-  "@remix-run/dev": "^2.13.1",
+  "@types/node": "^22.9.0",
   "@types/react": "^18.3.11",
   "@types/react-dom": "^18.3.1",
-  "typescript": "^5.6.2",
+  "autoprefixer": "^10.4.19",
+  "eslint": "^8.57.0",
+  "eslint-config-next": "^14.2.18",
+  "postcss": "^8.4.38",
   "tailwindcss": "^3.4.4",
-  "vite": "^5.4.8",
-  "eslint": "^8.38.0"
+  "typescript": "^5.6.2"
 }
 ```
 
@@ -73,12 +71,15 @@
 ### Structure du Projet
 ```
 Childhood.ink/
-├── app/                    # Application Remix
-│   ├── routes/            # Routes et pages
-│   ├── lib/               # Bibliothèques et utilitaires
+├── src/
+│   ├── app/               # Next.js App Router
+│   │   ├── page.tsx      # Page d'accueil
+│   │   ├── layout.tsx    # Layout principal
+│   │   └── globals.css   # Styles globaux
 │   ├── components/        # Composants React (à créer)
-│   ├── styles/            # Styles globaux
-│   └── utils/             # Fonctions utilitaires (à créer)
+│   └── lib/              # Bibliothèques et utilitaires
+│       ├── supabase.ts   # Client Supabase
+│       └── types.ts      # Types TypeScript
 ├── supabase/              # Configuration base de données
 ├── public/                # Assets statiques
 └── .github/               # CI/CD workflows
@@ -86,9 +87,9 @@ Childhood.ink/
 
 ### Architecture Backend
 - **Monorepo** : Frontend et Backend dans le même projet
-- **Server-Side Rendering** : Remix pour le SSR
-- **API Routes** : Routes Remix pour les endpoints API
-- **CRON Jobs** : Configuration sur Vercel (v0.8)
+- **Server-Side Rendering** : Next.js App Router pour le SSR
+- **API Routes** : Next.js API Routes (`/api/*`)
+- **CRON Jobs** : Vercel Cron Jobs (v0.8)
 
 ### Base de Données
 
@@ -113,13 +114,13 @@ sent_emails         # Historique des envois
 - **Provider** : Google OAuth via Supabase (v2.0)
 - **Session Management** : Supabase Auth
 - **Token Storage** : Cookies sécurisés
-- **Protection Routes** : Middleware Remix
+- **Protection Routes** : Next.js Middleware
 
 ### Variables d'Environnement
 ```env
-# Supabase
-SUPABASE_URL=xxx
-SUPABASE_ANON_KEY=xxx
+# Supabase (NEXT_PUBLIC_ pour accès client)
+NEXT_PUBLIC_SUPABASE_URL=xxx
+NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 SUPABASE_SERVICE_ROLE_KEY=xxx
 
 # Resend
@@ -151,27 +152,24 @@ NODE_ENV=xxx
 
 ### Configuration Vercel
 ```json
-{
-  "framework": "remix",
-  "buildCommand": "npm run build",
-  "outputDirectory": "build/client",
-  "regions": ["cdg1"]
-}
+{}
 ```
+
+**Note** : Next.js est auto-détecté par Vercel. Aucune configuration spéciale nécessaire.
 
 ## 📊 Performance
 
 ### Optimisations
-- **SSR** : Server-Side Rendering avec Remix
-- **Code Splitting** : Automatique avec Vite
-- **Asset Optimization** : Compression images
-- **Caching** : Strategy HTTP caching
+- **SSR** : Server-Side Rendering avec Next.js App Router
+- **Code Splitting** : Automatique avec Next.js
+- **Asset Optimization** : Next.js Image Optimization
+- **Caching** : Next.js Caching Strategy
 - **CDN** : Vercel Edge Network
 
 ### Monitoring
 - **Build Time** : Suivi via Vercel
-- **Bundle Size** : Analyse avec Vite
-- **Performance** : Web Vitals (à intégrer)
+- **Bundle Size** : Next.js Bundle Analyzer
+- **Performance** : Web Vitals intégrés par défaut
 
 ## 🧪 Tests
 
@@ -197,10 +195,10 @@ npm run test:e2e     # Tests E2E (à implémenter)
 - **Interfaces** : Préférer aux types pour les objets
 - **Enums** : Éviter, utiliser unions de strings
 
-### React/Remix
+### React/Next.js
 - **Functional Components** : Uniquement
 - **Hooks** : Suivre les règles des hooks
-- **Server Components** : Utiliser les loaders Remix
+- **Server Components** : Next.js App Router (RSC)
 - **File Naming** : kebab-case pour les fichiers
 
 ### Styling
@@ -265,12 +263,12 @@ npm run dev
 ### Déploiement Vercel
 1. Aller sur https://vercel.com
 2. Importer le repository `VGrss/Childhood`
-3. Configurer :
-   - Framework Preset : Remix
-   - Build Command : `npm run build`
-   - Output Directory : `build/client`
-4. Ajouter les variables d'environnement (SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY)
-5. Déployer
+3. Framework auto-détecté : Next.js ✅
+4. Ajouter les variables d'environnement :
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+5. Déployer (1 clic)
 
 ### Feature Development
 ```bash
@@ -297,7 +295,7 @@ git push origin feature/ma-fonctionnalite
 ## 📚 Ressources Techniques
 
 ### Documentation
-- **Remix** : https://remix.run/docs
+- **Next.js** : https://nextjs.org/docs
 - **React** : https://react.dev
 - **TypeScript** : https://www.typescriptlang.org/docs
 - **Tailwind CSS** : https://tailwindcss.com/docs

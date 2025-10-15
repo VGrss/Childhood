@@ -37,10 +37,10 @@ Voir **[Rules/tech.md](./Rules/tech.md)** pour la documentation technique compl�
 
 ## 🛠️ Stack Technique
 
-- **Frontend** : Remix 2.13.1 + TypeScript 5.6 + React 18
+- **Frontend** : Next.js 14.2 + TypeScript 5.6 + React 18
 - **Styling** : Tailwind CSS 3.4
 - **Database** : Supabase (PostgreSQL)
-- **Hosting** : Vercel (région Paris)
+- **Hosting** : Vercel (déploiement automatique)
 - **Email** : Resend
 - **CI/CD** : GitHub Actions
 
@@ -49,11 +49,11 @@ Voir **[Rules/tech.md](./Rules/tech.md)** pour la documentation technique compl�
 **Status** : Complète - 37 fichiers créés, 932 packages npm installés
 
 ### Réalisations
-- ✅ Configuration Remix + TypeScript + Vite + ESLint
+- ✅ Migration de Remix vers Next.js (déploiement Vercel simplifié)
+- ✅ Configuration Next.js + TypeScript + App Router
 - ✅ Setup Tailwind CSS avec thème personnalisé
 - ✅ Configuration Supabase (4 tables, RLS, triggers)
-- ✅ Configuration Vercel + GitHub Actions (CI/CD)
-- ✅ Page d'accueil temporaire avec design moderne
+- ✅ Landing page professionnelle (6 sections, 100% responsive)
 - ✅ Documentation technique complète
 
 ### Prochaines étapes
