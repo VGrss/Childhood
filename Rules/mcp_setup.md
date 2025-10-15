@@ -97,7 +97,7 @@ Pour obtenir votre API key :
 
 ## ⚙️ Configuration Cursor
 
-Le fichier de configuration MCP se trouve dans `~/.cursor/mcp_config.json` ou dans les settings de Cursor.
+Le fichier de configuration MCP se trouve dans `~/.cursor/mcp.json`.
 
 **Fichier de configuration complet** :
 
@@ -111,7 +111,7 @@ Le fichier de configuration MCP se trouve dans `~/.cursor/mcp_config.json` ou da
       }
     },
     "supabase": {
-      "command": "supabase-mcp-server",
+      "command": "/Users/victorgross/.local/bin/supabase-mcp-server",
       "env": {
         "SUPABASE_PROJECT_REF": "xxxxxxxxxxxxx",
         "SUPABASE_DB_PASSWORD": "your_password",
@@ -133,6 +133,8 @@ Le fichier de configuration MCP se trouve dans `~/.cursor/mcp_config.json` ou da
   }
 }
 ```
+
+**Note** : J'ai conservé votre serveur Figma Desktop existant dans la configuration.
 
 ## 📝 Configuration via Cursor Settings
 
