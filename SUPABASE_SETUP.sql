@@ -3,6 +3,8 @@
 -- Version 0.5 - Email Trigger System
 -- ==========================================
 -- 
+-- ⚠️ PRÉREQUIS : La table "subscriptions" doit déjà exister
+-- 
 -- Instructions :
 -- 1. Ouvrir Supabase Dashboard : https://supabase.com/dashboard
 -- 2. Sélectionner votre projet
@@ -16,6 +18,8 @@
 -- - Les triggers automatiques
 -- - 4 templates d'emails exemples
 -- - 4 règles de déclenchement
+--
+-- Note : Ce script est compatible avec le schéma v0.3 (table subscriptions)
 -- ==========================================
 
 -- ==========================================
@@ -86,7 +90,7 @@ CREATE TABLE public.email_rules (
 CREATE TABLE public.scheduled_emails (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   rule_id TEXT REFERENCES public.email_rules(id) NOT NULL,
-  child_id UUID REFERENCES public.children(id) ON DELETE CASCADE NOT NULL,
+  child_id UUID REFERENCES public.subscriptions(id) ON DELETE CASCADE NOT NULL,
   parent_email TEXT NOT NULL,
   template_id TEXT REFERENCES public.email_templates(id) NOT NULL,
   
@@ -137,14 +141,11 @@ CREATE POLICY "Anyone can view active rules"
   ON public.email_rules FOR SELECT
   USING (is_active = true);
 
--- Scheduled emails : parents voient leurs propres emails
-CREATE POLICY "Users can view their scheduled emails"
+-- Scheduled emails : publiquement accessible en lecture (pour l'instant)
+-- En v2.0 avec auth, on filtrera par auth.uid()
+CREATE POLICY "Anyone can view scheduled emails"
   ON public.scheduled_emails FOR SELECT
-  USING (
-    child_id IN (
-      SELECT id FROM public.children WHERE parent_id = auth.uid()
-    )
-  );
+  USING (true);
 
 -- ==========================================
 -- PARTIE 5 : TRIGGERS AUTOMATIQUES
@@ -373,13 +374,19 @@ COMMENT ON COLUMN public.scheduled_emails.idempotency_key IS 'Clé unique pour �
 -- ==========================================
 -- 
 -- ✅ Si tout s'est bien passé, vous devriez voir :
--- - 3 nouvelles tables créées
--- - 4 templates d'emails
--- - 4 règles de déclenchement
+-- - 3 nouvelles tables créées (email_templates, email_rules, scheduled_emails)
+-- - 4 templates d'emails insérés
+-- - 4 règles de déclenchement insérées
 -- 
 -- Pour vérifier :
 -- SELECT * FROM email_templates;
 -- SELECT * FROM email_rules;
+-- SELECT COUNT(*) FROM email_templates; -- Doit retourner 4
+-- SELECT COUNT(*) FROM email_rules; -- Doit retourner 4
+--
+-- Pour tester avec une inscription existante :
+-- SELECT * FROM subscriptions LIMIT 1; -- Copier l'ID
+-- Puis tester l'API : POST /api/schedule/preview avec la birth_date
 -- 
 -- ==========================================
 
