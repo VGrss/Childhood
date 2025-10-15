@@ -39,7 +39,7 @@ export default async function NewsletterPage() {
             </div>
             <Link href="/">
               <Button variant="outline">
-                ← Retour à l'accueil
+                ← Retour à l&apos;accueil
               </Button>
             </Link>
           </div>
