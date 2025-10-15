@@ -1,24 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "framework": null,
-  "outputDirectory": "build/client",
-  "regions": ["cdg1"],
-  "functions": {
-    "app/entry.server.tsx": {
-      "maxDuration": 30
-    }
-  },
-  "routes": [
-    {
-      "src": "/build/(.*)",
-      "dest": "/build/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/app/entry.server.tsx"
-    }
-  ]
+  "regions": ["cdg1"]
 }
 
