@@ -124,6 +124,37 @@
 - Génération de clés d'idempotence
 - Prévisualisation du calendrier d'envoi
 
+**Statut** : ✅ Complète - Déployé en production
+
+---
+
+## Version 0.6 - Interface d'Édition des Emails ✅ (15 octobre 2025)
+
+**Objectif** : Créer une interface web pour gérer et éditer les templates d'emails.
+
+**Réalisations** :
+- ✅ Page /newsletter pour lister tous les templates
+- ✅ Dashboard avec statistiques (total, actifs, inactifs)
+- ✅ Page /newsletter/[id] pour éditer un template
+- ✅ Éditeur structuré par sections (intro, activities, admin, health, financial, conclusion)
+- ✅ Système d'onglets (Édition / Prévisualisation)
+- ✅ Prévisualisation en temps réel avec variables de test
+- ✅ API GET /api/templates/[id] pour récupérer un template
+- ✅ API PUT /api/templates/[id] pour sauvegarder les modifications
+- ✅ Versioning automatique des templates
+- ✅ Interface moderne avec Shadcn UI (Tabs, Textarea, Dialog, Separator)
+- ✅ Gestion des sections (ajout, suppression, réorganisation)
+- ✅ Variables dynamiques ({child_name}, {parent_name}, {age})
+
+**Stack** : Next.js 15.5.5, TypeScript 5.6.2, Shadcn UI, Supabase
+
+**Fonctionnalités Clés** :
+- Interface intuitive pour éditer les templates
+- Organisation du contenu en sections thématiques
+- Prévisualisation instantanée avec remplacement de variables
+- Sauvegarde avec incrémentation automatique de version
+- Design responsive pour mobile et desktop
+
 **Statut** : ✅ Complète - Prêt pour déploiement
 
 
