@@ -49,17 +49,174 @@ Site de bonnes histoires pour enfants avec un éditorial bien fait et soigné.
 - Design moderne et attrayant
 - **Domaine** : childhood.ink
 
-### 2. Emailing Engine
-Système automatisé d'envoi d'emails programmés :
-- Envoi d'emails à des moments précis basés sur l'âge de l'enfant
-- Gestion des triggers temporels
-- **Provider** : Resend
+### 2. Système d'Emailing Intelligent
+
+#### 2.1 Architecture du Système
+
+Le système d'emailing est composé de **3 tables principales** :
+
+**`email_templates`** - Templates d'emails
+- Contenu riche structuré en sections (intro, activités, admin, santé, financier)
+- Variables dynamiques (child_name, parent_name, age)
+- Versioning des templates
+- Support multilingue (futur)
+
+**`email_rules`** - Règles de déclenchement
+- 3 types de triggers : relative, absolute, hybrid
+- Conditions d'âge sophistiquées (==, >=, <=, between)
+- Offsets temporels (jours, semaines, mois)
+- Configuration de l'heure d'envoi
+
+**`scheduled_emails`** - Queue d'emails planifiés
+- Système d'idempotence (évite les doublons)
+- Tracking du statut (scheduled, sent, failed, cancelled)
+- Variables pré-calculées pour chaque email
+
+#### 2.2 Types de Triggers
+
+**Trigger Relative (basé sur un événement enfant)**
+```
+Exemple : "7 jours avant l'anniversaire"
+- Anchor : birthday
+- Offset : -7 days
+- Fréquence : yearly
+```
+
+**Trigger Absolute (date fixe dans l'année)**
+```
+Exemple : "1er juillet pour les 2-5 ans"
+- Anchor : calendar (month: 7, day: 1)
+- Age condition : between 2 and 5
+- Fréquence : yearly
+```
+
+**Trigger Hybrid (calendrier + âge + offset)**
+```
+Exemple : "2 semaines avant la rentrée à 3 ans"
+- Anchor : school_start (September 1)
+- Offset : -2 weeks
+- Age condition : == 3
+- Fréquence : once
+```
+
+#### 2.3 Conditions d'Âge
+
+Le système supporte 5 types de conditions :
+- `==` : Exactement X ans (ex: == 3)
+- `>=` : X ans et plus (ex: >= 3)
+- `<=` : X ans et moins (ex: <= 5)
+- `between` : Entre X et Y ans (ex: between 2 and 5)
+- `none` : Pas de condition d'âge
+
+#### 2.4 Logique de Scheduling
+
+**Étapes de calcul automatique :**
+1. **Expansion** : Génère toutes les dates candidates possibles
+2. **Filtrage** : Applique les conditions d'âge
+3. **Offset** : Ajoute/soustrait les jours/semaines/mois
+4. **Timing** : Applique l'heure d'envoi configurée
+5. **Idempotence** : Génère une clé unique (rule_id + child_id + date)
+6. **Queue** : Insère dans scheduled_emails si pas déjà présent
+
+**Exemple de calcul :**
+```
+Enfant né le : 2022-02-25
+Règle : "7 jours avant anniversaire"
+Date candidate : 2025-02-25 (anniversaire des 3 ans)
+Offset : -7 jours
+Résultat : 2025-02-18 à 10h00
+```
+
+#### 2.5 Provider & Envoi
+
+- **Provider** : Resend (intégration v1.0)
+- **Horizon** : 18 mois (calcul anticipé)
+- **Timezone** : Support multi-timezone (Europe/Paris par défaut)
+- **Retry** : Gestion automatique des erreurs
+- **Logs** : Tracking complet (sent_at, opened_at, clicked_at)
+
+#### 2.6 Exemples de Règles Implémentées
+
+| Règle | Type | Trigger | Condition | Fréquence |
+|-------|------|---------|-----------|-----------|
+| Birthday Reminder | Relative | -7d avant birthday | none | yearly |
+| Summer Activities | Absolute | 1er juillet | 2-5 ans | yearly |
+| Back to School | Absolute | 31 août | ≥3 ans | yearly |
+| First School Start | Hybrid | 2 sem. avant rentrée | =3 ans | once |
+
+#### 2.7 API de Prévisualisation
+
+**Endpoint** : `/api/schedule/preview`
+
+**GET** : Prévisualisation pour un enfant inscrit
+```bash
+GET /api/schedule/preview?child_id=xxx&months=18
+```
+
+**POST** : Prévisualisation pour un enfant fictif
+```bash
+POST /api/schedule/preview
+Body: { 
+  "birth_date": "2022-02-25", 
+  "first_name": "Alice",
+  "months": 18 
+}
+```
+
+**Réponse** :
+```json
+{
+  "success": true,
+  "total_emails": 5,
+  "schedule": [
+    {
+      "date": "2025-02-18 10:00",
+      "date_human": "mardi 18 février 2025 à 10h00",
+      "rule_name": "Rappel d'anniversaire",
+      "template_id": "tpl_birthday",
+      "child_age": 3
+    }
+  ]
+}
+```
 
 ### 3. Gestion du Contenu des Emails
-Structure simple et efficace :
-- **Titre de l'email**
-- **Sections & contenu** : Format rich text global incluant titres et liens externes
-- **Signature permanente** : Lien vers la Life Newsletter
+
+Structure des templates :
+```json
+{
+  "sections": [
+    {
+      "type": "intro",
+      "body": "Bonjour {parent_name}, ..."
+    },
+    {
+      "type": "activities",
+      "title": "Idées d'activités",
+      "body": "- Activité 1\n- Activité 2"
+    },
+    {
+      "type": "health",
+      "title": "Conseils santé",
+      "body": "..."
+    }
+  ]
+}
+```
+
+**Types de sections** :
+- `intro` : Introduction personnalisée
+- `activities` : Suggestions d'activités
+- `admin` : Démarches administratives
+- `health` : Conseils santé
+- `financial` : Gestion financière
+- `conclusion` : Signature et clôture
+
+**Variables dynamiques** :
+- `{child_name}` : Prénom de l'enfant
+- `{parent_name}` : Prénom du parent
+- `{age}` : Âge de l'enfant
+- `{send_date}` : Date d'envoi
 
 ### 4. Pages Publiques du contenu des Emails
 - Chaque email est disponible publiquement sur une page dédiée
