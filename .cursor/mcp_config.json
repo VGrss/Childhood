@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "vercel": {
+      "url": "https://mcp.vercel.com",
+      "env": {
+        "VERCEL_TOKEN": "YOUR_VERCEL_TOKEN_HERE"
+      }
+    },
+    "supabase": {
+      "command": "/Users/victorgross/.local/bin/supabase-mcp-server",
+      "env": {
+        "SUPABASE_PROJECT_REF": "YOUR_PROJECT_REF_HERE",
+        "SUPABASE_DB_PASSWORD": "YOUR_DB_PASSWORD_HERE",
+        "SUPABASE_REGION": "eu-west-1"
+      }
+    },
+    "namecheap": {
+      "command": "node",
+      "args": [
+        "/Users/victorgross/mcp-namecheap-registrar/dist/index.js"
+      ],
+      "env": {
+        "NAMECHEAP_API_USER": "YOUR_USERNAME_HERE",
+        "NAMECHEAP_API_KEY": "YOUR_API_KEY_HERE",
+        "NAMECHEAP_USERNAME": "YOUR_USERNAME_HERE",
+        "NAMECHEAP_CLIENT_IP": "YOUR_WHITELISTED_IP_HERE"
+      }
+    }
+  }
+}
+
