@@ -61,8 +61,34 @@
 - Variables d'environnement Supabase (.env.local)
 - Migration SQL appliquée (001_add_subscriptions.sql)
 
-**Statut** : 🚧 Développement terminé - Configuration Supabase requise (voir SETUP_V0.3.md)
+**Statut** : ✅ Complète - Déployé en production
 
+---
+
+## Version 0.4 - Intégration Shadcn UI ✅ (15 octobre 2025)
+
+**Objectif** : Implémenter un design system cohérent et professionnel avec Shadcn UI.
+
+**Réalisations** :
+- ✅ Installation et configuration Shadcn UI (style New York)
+- ✅ Composants UI installés : Button, Input, Label, Card
+- ✅ Refactorisation complète du formulaire avec composants Shadcn
+- ✅ Création du composant réutilisable `ContentCard`
+- ✅ Amélioration des cartes de contenu avec design moderne
+- ✅ Animations et transitions (hover, shadow, translate)
+- ✅ Variables CSS pour thème cohérent
+- ✅ Support dark mode intégré
+- ✅ Intégration tailwindcss-animate
+
+**Stack** : Next.js 15.5.5, TypeScript 5.6.2, Tailwind CSS 3.4.4, Shadcn UI
+
+**Design System** :
+- Palette de couleurs unifiée avec variables CSS
+- Composants réutilisables et maintenables
+- Animations fluides et professionnelles
+- Support dark mode prêt à l'emploi
+
+**Statut** : ✅ Complète - Prêt pour déploiement
 
 
 

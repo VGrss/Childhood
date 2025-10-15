@@ -1,4 +1,5 @@
 import SubscriptionForm from '@/components/SubscriptionForm';
+import ContentCard from '@/components/ContentCard';
 
 export default function Home() {
   return (
@@ -50,57 +51,30 @@ export default function Home() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Activités */}
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-3xl">🎨</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Activités
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Des idées d&apos;activités adaptées à chaque âge pour stimuler la créativité et l&apos;éveil.
-              </p>
-            </div>
-
-            {/* Administratif */}
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-3xl">📋</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Administratif
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Les démarches importantes à ne pas oublier : inscriptions, documents, allocations.
-              </p>
-            </div>
-
-            {/* Santé */}
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-3xl">💚</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Santé
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Conseils santé et bien-être : vaccins, nutrition, développement physique.
-              </p>
-            </div>
-
-            {/* Financier */}
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-3xl">💰</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                Financier
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Gérer le budget familial : épargne, aides, préparation de l&apos;avenir.
-              </p>
-            </div>
+            <ContentCard
+              icon="🎨"
+              title="Activités"
+              description="Des idées d'activités adaptées à chaque âge pour stimuler la créativité et l'éveil."
+              iconBgColor="bg-blue-100"
+            />
+            <ContentCard
+              icon="📋"
+              title="Administratif"
+              description="Les démarches importantes à ne pas oublier : inscriptions, documents, allocations."
+              iconBgColor="bg-purple-100"
+            />
+            <ContentCard
+              icon="💚"
+              title="Santé"
+              description="Conseils santé et bien-être : vaccins, nutrition, développement physique."
+              iconBgColor="bg-green-100"
+            />
+            <ContentCard
+              icon="💰"
+              title="Financier"
+              description="Gérer le budget familial : épargne, aides, préparation de l'avenir."
+              iconBgColor="bg-yellow-100"
+            />
           </div>
         </div>
       </section>
@@ -200,7 +174,7 @@ export default function Home() {
             <SubscriptionForm />
           </div>
           <p className="text-gray-400 mt-8">
-            Version 0.3 - Formulaire d&apos;Inscription
+            Version 0.4 - Design System Shadcn UI
           </p>
         </div>
       </section>
