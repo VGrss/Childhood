@@ -48,22 +48,21 @@ git remote set-url origin git@github.com:VGrss/Childhood.git
 
 ## 🚀 Déploiement Vercel
 
-### Configuration initiale (première fois)
-1. Aller sur https://vercel.com et se connecter avec GitHub
+### Première fois
+1. https://vercel.com → Se connecter avec GitHub
 2. "New Project" → Importer "VGrss/Childhood"
-3. Configuration auto-détectée (Remix, npm run build, build/client)
-4. Ajouter variables d'environnement : `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
-5. Deploy
-
-**Note** : `vercel.json` est configuré pour Remix (buildCommand, regions)
+3. Framework auto-détecté : **Next.js** ✅
+4. Variables d'environnement :
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+5. Deploy (1 clic)
 
 ### Déploiements suivants
-Automatiques : `git push origin main` → Vercel redéploie
+Automatiques via `git push origin main`
 
-### En cas d'erreur
-- Vérifier que `vercel.json` est simple (buildCommand, installCommand, regions uniquement)
-- Laisser Vercel auto-détecter le framework Remix
-- Vérifier les variables d'environnement dans Vercel dashboard
+### Domaine (optionnel)
+Vercel Settings > Domains > Add `childhood.ink` → Configurer DNS chez registrar
 
 ## 📦 Release GitHub (Optionnel)
 
