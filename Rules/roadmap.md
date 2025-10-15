@@ -19,7 +19,7 @@
 ## Version 0.2 - Landing Page
 
 - [ ] Design de la page d'accueil
-- [ ] Présentation du concept Life Newsletter
+- [ ] Présentation du concept Childhood.ink
 - [ ] Design responsive mobile
 
 ### Tests v0.2
@@ -42,15 +42,16 @@
 
 ---
 
-## Version 0.4 - Configuration Emailing
+## Version 0.4 - Intégration Shadcn UI
 
-- [ ] Configuration Resend comme provider d'emails
-- [ ] Template d'email de base avec signature
-- [ ] Email de confirmation d'inscription
+- [ ] Installation Shadcn UI
+- [ ] Refactorisation landing page avec Shadcn
+- [ ] Refactorisation formulaire d'inscription
+- [ ] Design system cohérent
 
 ### Tests v0.4
-- [ ] Inscrire un utilisateur et recevoir l'email de confirmation
-- [ ] Vérifier le template et la signature
+- [ ] Vérifier l'intégration des composants Shadcn UI
+- [ ] Tester l'uniformité visuelle sur toutes les pages
 
 ---
 
@@ -117,16 +118,15 @@
 
 ---
 
-## Version 1.0 - Intégration Shadcn UI
+## Version 1.0 - Configuration Emailing
 
-- [ ] Installation Shadcn UI
-- [ ] Refactorisation landing page avec Shadcn
-- [ ] Refactorisation formulaire d'inscription
-- [ ] Design system cohérent
+- [ ] Configuration Resend comme provider d'emails
+- [ ] Template d'email de base avec signature
+- [ ] Email de confirmation d'inscription
 
 ### Tests v1.0
-- [ ] Vérifier l'intégration des composants Shadcn UI
-- [ ] Tester l'uniformité visuelle sur toutes les pages
+- [ ] Inscrire un utilisateur et recevoir l'email de confirmation
+- [ ] Vérifier le template et la signature
 
 ---
 

@@ -37,6 +37,32 @@
 
 **Statut** : ✅ Complète - Prêt pour déploiement Vercel (1 clic)
 
+---
+
+## Version 0.3 - Formulaire d'Inscription 🚧 (15 octobre 2025)
+
+**Objectif** : Permettre aux parents de s'inscrire avec les informations de leur enfant.
+
+**Réalisations** :
+- ✅ Composant React de formulaire d'inscription avec validation
+- ✅ 4 champs : prénom enfant, email parent, date de naissance, genre (garçon/fille)
+- ✅ Validation côté client (format email, date valide, champs requis)
+- ✅ API Route Next.js `/api/subscribe` pour traiter les inscriptions
+- ✅ Migration SQL pour la table `subscriptions` dans Supabase
+- ✅ Intégration complète avec Supabase pour enregistrer les données
+- ✅ États de chargement et messages de succès/erreur
+- ✅ Design moderne avec animations et transitions
+- ✅ Responsive mobile et desktop
+- ✅ Prévention des doublons (email unique)
+
+**Stack** : Next.js 15.5.5, TypeScript 5.6.2, Tailwind CSS 3.4.4, Supabase 2.45.4
+
+**Configuration requise** :
+- Variables d'environnement Supabase (.env.local)
+- Migration SQL appliquée (001_add_subscriptions.sql)
+
+**Statut** : 🚧 Développement terminé - Configuration Supabase requise (voir SETUP_V0.3.md)
+
 
 
 

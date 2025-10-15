@@ -1,3 +1,5 @@
+import SubscriptionForm from '@/components/SubscriptionForm';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -17,14 +19,9 @@ export default function Home() {
             Comme un mentor ou une bonne tante qui serait toujours là.
           </p>
 
-          {/* CTA Button */}
-          <div className="inline-block">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-lg text-lg shadow-lg transition-all duration-200 hover:scale-105">
-              Bientôt disponible 🎉
-            </button>
-            <p className="text-sm text-gray-500 mt-3">
-              Version 0.2 - Landing Page
-            </p>
+          {/* Subscription Form */}
+          <div className="mt-12">
+            <SubscriptionForm />
           </div>
         </div>
       </section>
@@ -197,10 +194,13 @@ export default function Home() {
             Prêt à accompagner votre enfant ?
           </h2>
           <p className="text-xl text-gray-300 mb-8">
-            L&apos;inscription sera bientôt disponible.
+            Inscrivez-vous maintenant et commencez à recevoir des conseils personnalisés.
           </p>
-          <p className="text-gray-400">
-            Version 0.2 - Landing Page | En cours de développement
+          <div className="mt-8">
+            <SubscriptionForm />
+          </div>
+          <p className="text-gray-400 mt-8">
+            Version 0.3 - Formulaire d&apos;Inscription
           </p>
         </div>
       </section>
