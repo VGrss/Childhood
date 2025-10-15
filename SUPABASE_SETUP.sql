@@ -148,7 +148,20 @@ CREATE POLICY "Anyone can view scheduled emails"
   USING (true);
 
 -- ==========================================
--- PARTIE 5 : TRIGGERS AUTOMATIQUES
+-- PARTIE 5 : FONCTION POUR UPDATED_AT
+-- ==========================================
+
+-- Créer la fonction si elle n'existe pas déjà
+CREATE OR REPLACE FUNCTION public.handle_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = TIMEZONE('utc'::text, NOW());
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ==========================================
+-- PARTIE 6 : TRIGGERS AUTOMATIQUES
 -- ==========================================
 
 CREATE TRIGGER set_updated_at_email_templates
@@ -167,7 +180,7 @@ CREATE TRIGGER set_updated_at_scheduled_emails
   EXECUTE FUNCTION public.handle_updated_at();
 
 -- ==========================================
--- PARTIE 6 : SEED DATA - TEMPLATES D'EMAILS
+-- PARTIE 7 : SEED DATA - TEMPLATES D'EMAILS
 -- ==========================================
 
 INSERT INTO public.email_templates (id, name, subject, content, variables, preview_text, version, is_active) VALUES
@@ -293,7 +306,7 @@ INSERT INTO public.email_templates (id, name, subject, content, variables, previ
 );
 
 -- ==========================================
--- PARTIE 7 : SEED DATA - RÈGLES DE DÉCLENCHEMENT
+-- PARTIE 8 : SEED DATA - RÈGLES DE DÉCLENCHEMENT
 -- ==========================================
 
 INSERT INTO public.email_rules (
@@ -358,7 +371,7 @@ INSERT INTO public.email_rules (
 );
 
 -- ==========================================
--- PARTIE 8 : COMMENTAIRES DE DOCUMENTATION
+-- PARTIE 9 : COMMENTAIRES DE DOCUMENTATION
 -- ==========================================
 
 COMMENT ON TABLE public.email_templates IS 'Templates d''emails avec contenu riche et variables dynamiques';
