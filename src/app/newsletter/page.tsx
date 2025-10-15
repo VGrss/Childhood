@@ -34,7 +34,7 @@ export default async function NewsletterPage() {
                 📬 Gestion des Templates
               </h1>
               <p className="text-lg text-gray-600">
-                Créez et éditez les templates d'emails de la newsletter
+                Créez et éditez les templates d&apos;emails de la newsletter
               </p>
             </div>
             <Link href="/">
@@ -150,7 +150,7 @@ export default async function NewsletterPage() {
 
         {/* Footer Info */}
         <div className="mt-12 text-center text-sm text-gray-500">
-          <p>💡 Astuce : Les templates sont utilisés par les règles d'envoi automatique</p>
+          <p>💡 Astuce : Les templates sont utilisés par les règles d&apos;envoi automatique</p>
         </div>
       </div>
     </div>

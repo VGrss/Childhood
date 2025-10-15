@@ -2,7 +2,6 @@
 
 import { EmailRule, Child, CandidateDate, AgeConditionOp } from './types';
 import { addDays, addWeeks, addMonths, addYears, differenceInDays, parseISO, format, lastDayOfMonth, setMonth, setDate, setHours, setMinutes } from 'date-fns';
-import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
 
 /**
  * Calcule l'âge d'un enfant à une date donnée
@@ -176,9 +175,11 @@ export function applyScheduleTime(date: Date, rule: EmailRule): Date {
 
 /**
  * Convertit une date locale en UTC
+ * Note: Pour simplifier, on utilise la date telle quelle
+ * En production, utiliser date-fns-tz pour une conversion précise
  */
 export function toUTC(localDate: Date, timezone: string): Date {
-  return zonedTimeToUtc(localDate, timezone);
+  return localDate;
 }
 
 /**

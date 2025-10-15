@@ -36,6 +36,7 @@ export default function EditTemplatePage() {
 
   useEffect(() => {
     fetchTemplate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateId]);
 
   const fetchTemplate = async () => {
@@ -187,17 +188,17 @@ export default function EditTemplatePage() {
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Rappel d'anniversaire"
+                    placeholder="Rappel d&apos;anniversaire"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Sujet de l'email</Label>
+                  <Label htmlFor="subject">Sujet de l&apos;email</Label>
                   <Input
                     id="subject"
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    placeholder="🎉 L'anniversaire de {child_name} approche !"
+                    placeholder="🎉 L&apos;anniversaire de {child_name} approche !"
                   />
                   <p className="text-xs text-gray-500">
                     Variables disponibles : {'{child_name}'}, {'{parent_name}'}, {'{age}'}
@@ -303,7 +304,7 @@ export default function EditTemplatePage() {
           <TabsContent value="preview">
             <Card>
               <CardHeader>
-                <CardTitle>Prévisualisation de l'email</CardTitle>
+                <CardTitle>Prévisualisation de l&apos;email</CardTitle>
                 <CardDescription>
                   Aperçu avec variables de test
                 </CardDescription>
