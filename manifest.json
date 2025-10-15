@@ -18,8 +18,8 @@
   ],
   "technologies": {
     "frontend": {
-      "framework": "Remix",
-      "version": "2.13.1",
+      "framework": "Next.js",
+      "version": "14.2.33",
       "language": "TypeScript",
       "ui": "Tailwind CSS"
     },
@@ -43,13 +43,14 @@
     "0.2.0": {
       "date": "2025-10-15",
       "status": "Released",
-      "type": "Landing Page",
-      "description": "Landing page professionnelle avec présentation complète du concept Life Newsletter, 6 sections, design responsive"
+      "type": "Landing Page + Migration Next.js",
+      "description": "Migration Remix → Next.js (déploiement Vercel simplifié). Landing page professionnelle 6 sections, design responsive, prêt pour production"
     }
   },
   "features": {
     "completed": [
-      "Configuration Remix + TypeScript",
+      "Migration de Remix vers Next.js",
+      "Configuration Next.js + TypeScript",
       "Setup Tailwind CSS",
       "Configuration Supabase",
       "Setup Vercel",
