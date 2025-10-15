@@ -220,7 +220,7 @@ npm run test:e2e     # Tests E2E (à implémenter)
 ### Setup Local
 ```bash
 # 1. Clone
-git clone https://github.com/VOTRE_USERNAME/childhood-ink.git
+git clone https://github.com/VGrss/Childhook.git
 
 # 2. Install
 cd childhood-ink
@@ -232,7 +232,30 @@ cp .env.example .env
 
 # 4. Run
 npm run dev
+# Site accessible sur http://localhost:5173
 ```
+
+### Configuration Supabase
+1. Aller sur https://supabase.com
+2. Créer un projet "childhood-ink"
+3. Dans SQL Editor, exécuter le fichier `supabase/schema.sql`
+4. Récupérer les clés API dans Settings > API
+5. Mettre à jour le fichier `.env` :
+   ```env
+   SUPABASE_URL=https://xxxxxxxxxx.supabase.co
+   SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+   SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+   ```
+
+### Déploiement Vercel
+1. Aller sur https://vercel.com
+2. Importer le repository `VGrss/Childhook`
+3. Configurer :
+   - Framework Preset : Remix
+   - Build Command : `npm run build`
+   - Output Directory : `build/client`
+4. Ajouter les variables d'environnement (SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY)
+5. Déployer
 
 ### Feature Development
 ```bash
@@ -312,10 +335,25 @@ git push origin feature/ma-fonctionnalite
 - **Database** : Supabase logs
 
 ### Common Issues
-1. **npm permissions** : `sudo chown -R $(whoami) ~/.npm`
-2. **Port occupé** : Vite utilisera automatiquement un autre port
-3. **Supabase errors** : Vérifier les clés dans .env
+1. **npm permissions** : `sudo chown -R $(whoami) ~/.npm ~/.nvm`
+2. **Port 5173 occupé** : Vite utilisera automatiquement un autre port
+3. **Supabase errors** : Vérifier les clés dans .env, que le schéma SQL a été exécuté
 4. **Build errors** : `npm run typecheck` pour identifier
+5. **Variables d'environnement manquantes** : Vérifier que `.env` existe et contient toutes les variables
+
+### Commandes Utiles
+```bash
+# Développement
+npm run dev              # Serveur dev (http://localhost:5173)
+
+# Build
+npm run build            # Build de production
+npm run start            # Serveur de production
+
+# Qualité du code
+npm run typecheck        # Vérifier les types
+npm run lint             # Linter le code
+```
 
 ## 📈 Métriques
 
