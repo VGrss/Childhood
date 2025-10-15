@@ -150,12 +150,16 @@
 
 **Fonctionnalités Clés** :
 - Interface intuitive pour éditer les templates
-- Organisation du contenu en sections thématiques
-- Prévisualisation instantanée avec remplacement de variables
+- **REFONTE** : Structure simplifiée (body unique au lieu de sections multiples)
+- Affichage des triggers temporels sur chaque template
+- Tri chronologique automatique (par ordre d'envoi dans l'année)
+- Prévisualisation instantanée avec markdown simple (##, -, ---)
+- Éditeur unifié avec un seul champ de contenu
+- Conversion automatique de l'ancien format vers le nouveau
 - Sauvegarde avec incrémentation automatique de version
 - Design responsive pour mobile et desktop
 
-**Statut** : ✅ Complète - Prêt pour déploiement
+**Statut** : ✅ Complète - Déployé en production
 
 
 
