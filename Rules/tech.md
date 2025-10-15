@@ -220,7 +220,7 @@ npm run test:e2e     # Tests E2E (à implémenter)
 ### Setup Local
 ```bash
 # 1. Clone
-git clone https://github.com/VGrss/Childhook.git
+git clone https://github.com/VGrss/Childhood.git
 
 # 2. Install
 cd childhood-ink
@@ -264,7 +264,7 @@ npm run dev
 
 ### Déploiement Vercel
 1. Aller sur https://vercel.com
-2. Importer le repository `VGrss/Childhook`
+2. Importer le repository `VGrss/Childhood`
 3. Configurer :
    - Framework Preset : Remix
    - Build Command : `npm run build`

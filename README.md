@@ -2,7 +2,7 @@
 
 Newsletter éducative personnalisée pour accompagner les parents tout au long de la vie de leurs enfants.
 
-**Repository** : https://github.com/VGrss/Childhook
+**Repository** : https://github.com/VGrss/Childhood
 
 ## 🎯 Vision
 

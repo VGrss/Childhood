@@ -1,6 +1,6 @@
 # Procédure de Release
 
-Repository: https://github.com/VGrss/Childhook
+Repository: https://github.com/VGrss/Childhood
 
 ## 🚀 Release en 3 Étapes
 
@@ -36,7 +36,7 @@ git push origin --tags
 
 ### Option 2 : SSH
 ```bash
-git remote set-url origin git@github.com:VGrss/Childhook.git
+git remote set-url origin git@github.com:VGrss/Childhood.git
 ```
 
 ## ✅ Vérifications Post-Release
@@ -48,7 +48,7 @@ git remote set-url origin git@github.com:VGrss/Childhook.git
 
 ## 📦 Release GitHub (Optionnel)
 
-1. Aller sur https://github.com/VGrss/Childhook/releases
+1. Aller sur https://github.com/VGrss/Childhood/releases
 2. "Create a new release"
 3. Choisir le tag
 4. Ajouter titre et description des changements
