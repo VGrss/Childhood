@@ -66,7 +66,8 @@ export default function EditTemplatePage() {
             .map((s: any) => {
               let text = '';
               if (s.title) text += `## ${s.title}\n\n`;
-              text += s.body;
+              // Convertir les \n littéraux en vrais sauts de ligne
+              text += s.body.replace(/\\n/g, '\n');
               return text;
             })
             .join('\n\n---\n\n');
