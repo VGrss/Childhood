@@ -88,6 +88,42 @@
 - Animations fluides et professionnelles
 - Support dark mode prêt à l'emploi
 
+**Statut** : ✅ Complète - Déployé en production
+
+---
+
+## Version 0.5 - Base de Données Contenu & Email Trigger System ✅ (15 octobre 2025)
+
+**Objectif** : Créer le système sophistiqué de déclenchement d'emails basé sur des règles et événements.
+
+**Réalisations** :
+- ✅ Migration SQL complète (email_templates, email_rules, scheduled_emails)
+- ✅ Système de règles (relative, absolute, hybrid)
+- ✅ Types TypeScript complets pour le système
+- ✅ Scheduler avec calcul automatique des dates
+- ✅ Support des triggers complexes (birthday, calendar, school_start)
+- ✅ Conditions d'âge sophistiquées (==, >=, <=, between)
+- ✅ Gestion des offsets (jours, semaines, mois)
+- ✅ API de prévisualisation du calendrier (/api/schedule/preview)
+- ✅ Seed data avec 4 templates et 4 rules exemples
+- ✅ Système d'idempotence pour éviter les doublons
+- ✅ Support multi-timezone
+
+**Stack** : Next.js 15.5.5, TypeScript 5.6.2, Supabase, date-fns 4.x
+
+**Exemples de Règles** :
+- Birthday Reminder : 7 jours avant chaque anniversaire
+- Summer Activities : 1er juillet pour les 2-5 ans
+- Back to School : 31 août pour les 3+ ans
+- First School Start : 2 semaines avant la rentrée à 3 ans
+
+**Fonctionnalités Clés** :
+- Expansion automatique des dates candidates
+- Vérification des conditions d'âge
+- Application des offsets temporels
+- Génération de clés d'idempotence
+- Prévisualisation du calendrier d'envoi
+
 **Statut** : ✅ Complète - Prêt pour déploiement
 
 
