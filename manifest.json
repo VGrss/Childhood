@@ -1,6 +1,6 @@
 {
   "name": "Childhood.ink",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Newsletter éducative personnalisée pour accompagner les parents tout au long de la vie de leurs enfants",
   "author": "Victor Gross",
   "repository": {
@@ -39,6 +39,12 @@
       "status": "Released",
       "type": "Infrastructure",
       "description": "Configuration complète de l'infrastructure de base : Remix + TypeScript, Tailwind CSS, Supabase, Vercel, GitHub Actions"
+    },
+    "0.2.0": {
+      "date": "2025-10-15",
+      "status": "Released",
+      "type": "Landing Page",
+      "description": "Landing page professionnelle avec présentation complète du concept Life Newsletter, 6 sections, design responsive"
     }
   },
   "features": {
